@@ -1,76 +1,76 @@
 var exportCode = {
     
-        // room = Memory.rooms[roomName]; 
-    run: function(spawn, task) {
-        var Spawn = Game.spawns[spawn];
+    // room = Memory.rooms[roomName]; 
+run: function(spawn, task) {
+    var Spawn = Game.spawns[spawn];
 
-        if (!Spawn.spawning) {
-            let canSpawn = this.spawnCreep(task, spawn, true);
-            if (canSpawn != true) {
-                 return false;           
-            }
-            this.spawnCreep(task, spawn);
-            return true;  
-        } 
-        return null;
-    },
-
-    spawnCreep: function(taskGiverID, spawn, dry = false){
-        let roomMemory = Game.getObjectById(taskGiverID).room.memory;
-        let role = roomMemory.tasks[taskGiverID][0];
-        let master = [taskGiverID, this.getMasterType(taskGiverID)];
-
-        switch (role) {
-            case 'basic':
-                Game.spawns[spawn].spawnCreep([WORK, CARRY, MOVE], 'Basic' + Game.time, {
-                    dryRun : dry,
-                    memory: {
-                        role: 'basic',
-                        master: master,
-                    }
-                });                
-                break;
-            case 'harvester':
-                Game.spawns[spawn].spawnCreep([WORK, CARRY, MOVE], 'Harvester' + Game.time, {
-                    dryRun : dry,
-                    memory: {
-                        role: 'harvester',
-                        master: master,
-                    }
-                });                
-                break;
-        
-            default:
-            console.log('spawnCreep switch defaulted');
-                break;
+    if (!Spawn.spawning) {
+        let canSpawn = this.spawnCreep(task, spawn, true);
+        if (canSpawn != true) {
+             return false;           
         }
+        this.spawnCreep(task, spawn);
+        return true;  
+    } 
+    return null;
+},
 
-        return true;
-    },
+spawnCreep: function(task, spawn, dry = false){
+    let master = [task.master, this.getMasterType(task.master)];
 
-    getMasterType: function(masterID){
-        let type = Game.structures[masterID];        
-        if (typeof type == 'undefined') {
-            return 'sources';
-        } else {            
-            type = type.structureType;
-            switch (type) {
-                case 'controller':
-                    return 'controller';
-                case 'spawn':
-                    return 'spawn';
-                default:
-                    console.log('Couldnt define master type');
-                    break;
-            }
-        }
-        // depends on how  to locate masters in the room memory
-        // spawn and controler are structures, sources are not
-
+    switch (task.role) {
+        case 'basic':
+            Game.spawns[spawn].spawnCreep([WORK, CARRY, MOVE], 'Basic' + Game.time, {
+                dryRun : dry,
+                memory: {
+                    status: 'spawning',
+                    role: 'basic',
+                    master: master,
+                }
+            });                
+            break;
+        case 'harvester':
+            Game.spawns[spawn].spawnCreep([WORK, CARRY, MOVE], 'Harvester' + Game.time, {
+                dryRun : dry,
+                memory: {
+                    status: 'spawning',
+                    role: 'harvester',
+                    master: master,
+                }
+            });                
+            break;
+    
+        default:
+        console.log('spawnCreep switch defaulted');
+            break;
     }
 
-    
-    
+    return true;
+},
+
+getMasterType: function(masterID){
+    let type = Game.structures[masterID];        
+    if (typeof type == 'undefined') {
+        return 'sources';
+    } else {            
+        type = type.structureType;
+        switch (type) {
+            case 'controller':
+                return 'controller';
+            case 'spawn':
+                return 'spawns';
+            default:
+                console.log('Couldnt define master type');
+                break;
+        }
+    }
+    // depends on how  to locate masters in the room memory
+    // spawn and controler are structures, sources are not
+
+}
+
+
+
 // ZVAZIT
 // v zavislosti na roli a stavu creepa vyhodnoti spravny cil pro akci, kterou ma creep v pameti
 //

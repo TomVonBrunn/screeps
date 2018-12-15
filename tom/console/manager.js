@@ -119,7 +119,7 @@ setRoomMemory: function(roomName)
         controller: Game.rooms[roomName].controller.id,
         spawns: {}, // reset
         sources: {},
-        tasks: {},  // FEATURE ROOM.TASKS        
+        task: {},  // FEATURE ROOM.TASKS        
     };
     
     Game.rooms[roomName].find(FIND_MY_STRUCTURES,{filter: (s) => s.structureType == STRUCTURE_SPAWN}).forEach(spawn => {
@@ -135,8 +135,7 @@ setRoomMemory: function(roomName)
             name: roomName + '_energy_' + x,
             slaves: [],
             task: null,
-        };  
-        Memory.rooms[roomName].tasks[source.id] = []; // FEATURE ROOM.TASKS
+        };
         x++;
     });
 },
