@@ -17,15 +17,14 @@ var exportCode = {
                 if (spawn.spawning) {
                     let creepName = spawn.spawning.name;
                     let creep = Game.creeps[creepName];
-                    let master = Game.getObjectById(creep.memory.master);
-                    switch (master.structureType) {
+                    switch (creep.memory.master[1]) {
                         case 'controller':                
                             room.controller.slaves.push(creep.name);
                             break;
-                        case 'spawn':
+                        case 'spawns':
                             room.spawns[master.name].slaves.push(creep.name);
                             break;
-                        case undefined:
+                        case 'sources':
                             room.sources[task].slaves.push(creep.name);
                             break;
                         default:

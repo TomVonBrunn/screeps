@@ -40,7 +40,12 @@ checkStaff: function(slaves)
             }
         }
         // po filtrovani a zapocitani udeli misi
+        
+    var testGM1 = performance.now();
         this.giveMission(slave); 
+        
+    var testGM2 = performance.now();
+    console.log(slave +  " performance: " + (testGM2 - testGM1) + " milliseconds.")
     }
     
     if (harvester < HARVESTER) {

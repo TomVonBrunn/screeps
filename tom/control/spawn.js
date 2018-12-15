@@ -26,7 +26,7 @@ var exportCode = {
                     dryRun : dry,
                     memory: {
                         role: 'basic',
-                        master: taskGiverID,
+                        master: master,
                     }
                 });                
                 break;
@@ -35,7 +35,7 @@ var exportCode = {
                     dryRun : dry,
                     memory: {
                         role: 'harvester',
-                        master: taskGiverID,
+                        master: master,
                     }
                 });                
                 break;
@@ -49,8 +49,24 @@ var exportCode = {
     },
 
     getMasterType: function(masterID){
+        let type = Game.structures[masterID];        
+        if (typeof type == 'undefined') {
+            return 'sources';
+        } else {            
+            type = type.structureType;
+            switch (type) {
+                case 'controller':
+                    return 'controller';
+                case 'spawn':
+                    return 'spawn';
+                default:
+                    console.log('Couldnt define master type');
+                    break;
+            }
+        }
         // depends on how  to locate masters in the room memory
         // spawn and controler are structures, sources are not
+
     }
 
     
