@@ -2,6 +2,10 @@ var roleBasic = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+            var status = creep.memory.status;
+            if (status.expiration > Game.time) {
+                    //skip or do something planned // to do: create plans
+            }
         creep.say('🔄 harvest');
 	    // if(creep.carry.energy < creep.carryCapacity) {
         //     var sources = creep.room.find(FIND_SOURCES);

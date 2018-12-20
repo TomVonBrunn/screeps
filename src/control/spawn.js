@@ -16,36 +16,57 @@ run: function(spawn, task) {
 },
 
 spawnCreep: function(task, spawn, dry = false){
-    let master = [task.master, this.getMasterType(task.master)];
-
-    switch (task.role) {
-        case 'basic':
-            Game.spawns[spawn].spawnCreep([WORK, CARRY, MOVE], 'Basic' + Game.time, {
-                dryRun : dry,
-                memory: {
-                    status: 'spawning',
-                    role: 'basic',
-                    master: master,
-                }
-            });                
-            break;
-        case 'harvester':
-            Game.spawns[spawn].spawnCreep([WORK, CARRY, MOVE], 'Harvester' + Game.time, {
-                dryRun : dry,
-                memory: {
-                    status: 'spawning',
-                    role: 'harvester',
-                    master: master,
-                }
-            });                
-            break;
+    var name = task.role + '_' + Game.time;
+    var bodyParts = this.getBodyParts(task.role);    
+    var master = [task.master, this.getMasterType(task.master)];
+    let expiration = Game.time + (bodyParts.length*3);
     
+    Game.spawns[spawn].spawnCreep(bodyParts, name, {
+        dryRun : dry,
+        memory: {
+            status: {action: 'spawning', expiration: expiration },
+            role: task.role,
+            master: master,
+        }
+    });
+    return true;
+},
+
+getBodyParts: function(role, mark = 0){
+    switch (mark) {
+        case 0:
+            switch (role) {
+                case 'basic':
+                    return [WORK, CARRY, MOVE];
+                    break;
+                case 'harvester':
+                    return [WORK, CARRY, MOVE];                          
+                    break;
+                case 'upgrader':
+                    return [WORK, CARRY, MOVE];
+                default:
+                console.log('spawnCreep switch defaulted on role');
+                    break;
+            }
+            break;
+        case 2:
+            switch (role) {
+                case 'basic':
+                    return [WORK, CARRY, MOVE];
+                    break;
+                case 'harvester':
+                    return [WORK, CARRY, MOVE];                          
+                    break;
+                case 'upgrader':
+                    return [WORK, CARRY, MOVE];
+                default:
+                console.log('spawnCreep switch defaulted on role');
+                    break;
+            }
+            break;   
         default:
-        console.log('spawnCreep switch defaulted');
             break;
     }
-
-    return true;
 },
 
 getMasterType: function(masterID){
