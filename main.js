@@ -1,5 +1,3 @@
-// var spawnControl = require('control.spawn');
-// var sourceControl = require('control.source');
 var zoneControl = require('control.zone');
 
 module.exports.loop = function () {
@@ -13,9 +11,16 @@ module.exports.loop = function () {
 
     // RUN ZONES
     var zones = typeof Memory.zones !== 'undefined' ? Memory.zones.length : 0;
-    if (zones == 0) { 
-        console.log("NO ZONES! Try these:");
-        console.log("require('manager').createZone('zoneX'); require('manager').addRoom('sim', 'zoneX')");
+    if (zones == 0) {
+        var zone = require('specials').getZoneName();
+        var room = '';
+        for (const spawn in Game.spawns) {
+            if (room == '') {
+                room = Game.spawns[spawn].room.name;
+            }
+        }
+        console.log("NO ZONES! Try this:");
+        console.log("require('console.manager').createZone('" + zone + "'); require('console.manager').addRoom('" + room + "', '" + zone + "')");
     };
     
     for (let i = 0; i < zones; i++) {
@@ -25,5 +30,5 @@ module.exports.loop = function () {
     
     // checkStaff.run(Game.creeps);
     var t1 = performance.now();
-    console.log("Cycle performance: " + (t1 - t0) + " milliseconds.")
+    console.log("Cycle performance: " + Game.cpu.getUsed() + " CPU in " + (t1 - t0) + " ms.")
 };
