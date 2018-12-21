@@ -9,6 +9,7 @@ var exportCode = {
         var task = room.task;
         this.checkSpawning(room);
         this.runSources(room);
+        this.runController(room);
 
         //check tasks that have been assigned to spawns last turn - assign creeps to masters        
         console.log('Next in que: ' + task.role + ' for ' + task.master + ' with priority ' + task.priority);
@@ -30,14 +31,14 @@ var exportCode = {
             }
         }
     },
+
+    // Check that task is being fulfilled (= spawn had enough energy)
     checkSpawning: function(room){
         var task = room.task;
         let spawn = task.priority;
         if (typeof spawn == 'string') {
             spawn = Game.spawns[spawn];
             if (spawn.spawning) {
-                // StructureSpawn.Spawning; can only get name of creep, write to devs and complain
-                // https://docs.screeps.com/api/#StructureSpawn-Spawning
                 let creepName = spawn.spawning.name;
                 let creep = Game.creeps[creepName];
                 switch (creep.memory.master[1]) {
@@ -77,6 +78,19 @@ var exportCode = {
                 task.role = source.task[0];
                 task.master = sourceID;
             }
+        }
+    },
+
+    runController: function(room){
+        console.log(room.controller);
+        var controllerControl = require('control.controller');
+        var task = room.task;
+        var controller = room.controller;
+        controllerControl.run(controller);
+        if (task.priority < controller.task[1]){
+            task.priority = controller.task[1];
+            task.role = controller.task[0];
+            task.master = room.controller;
         }
     },
 

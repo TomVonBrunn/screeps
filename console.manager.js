@@ -111,17 +111,22 @@ addRoom_step1: function(room, zoneID, force = 0, exclusive = 1)
 // SETS ROOM MEMORY
 setRoomMemory: function(roomName)
 {
-    if (Memory.rooms.roomName) {
+    console.log(Memory.rooms[roomName]);
+    if (typeof Memory.rooms[roomName] !== 'undefined') {
         console.log("%cAddRoom CODE ALERT; Room memory already existed. It got rewritten. Check it out.", "color:yellow")
     }
 
     Memory.rooms[roomName] = {
-        controller: Game.rooms[roomName].controller.id,
+        controller: {
+            id: Game.rooms[roomName].controller.id,
+            slaves: [],
+            task: {},
+        },
         spawns: {}, // reset
         sources: {},
         task: {},  // FEATURE ROOM.TASKS        
     };
-    
+
     Game.rooms[roomName].find(FIND_MY_STRUCTURES,{filter: (s) => s.structureType == STRUCTURE_SPAWN}).forEach(spawn => {
         Memory.rooms[roomName].spawns[spawn.name] = {
             task: null,

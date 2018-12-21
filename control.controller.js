@@ -3,22 +3,21 @@
 
 var exportCode = {   
 
-    run: function(source) 
+    run: function(controller) 
     {
-        source.task = this.checkStaff(source.slaves);
+        controller.task = this.checkStaff(controller.slaves);
     },
     
+        // sub ke kontrole existence sluhu, promazani mrtvych, a vraci ukol, najde-li nedostatek
     checkStaff: function(slaves) 
     {
-        const HARVESTER = 1;
-        // const COURIER = 2;
+        const UPGRADER = 1;
     
-        var harvester = 0;
-        var courier = 0;
+        var upgrader = 0;
         
         var length = slaves.length?slaves.length:0;
         if (length == 0) {
-            return ['basic',3];
+            return ['upgrader',4];
         }
         
         for (let i = 0; i < length; i++) {
@@ -37,6 +36,7 @@ var exportCode = {
                         break;
                 }
             }
+            // po filtrovani a zapocitani udeli misi
             
         var testGM1 = performance.now();
             this.giveMission(slave); 
@@ -105,6 +105,7 @@ var exportCode = {
             case 'builder':
                 break;
             case 'upgrader':
+            // console.log(self + ' is bored');
             // var roleUpgrader = require('role.upgrader');
                 break;
             case 'basic':
@@ -112,36 +113,11 @@ var exportCode = {
                 basicRole.run(slave);
                 break;
             default:
-                console.log(self + ' is bored');
+                console.log('Creep role defaulted: ' + slave);
         }
         return;
     },
-            // function getTarget(slave) {
-            //     switch (slave.memory.role) {
-            //         case 'carrier':
-            //             switch (slave.memory.mission) {
-            //                 case 'load':
-            //                     slave.memory.target = getPosition(getslaveById(slave.memory.load));
-            //                     break;
-            //                 case 'drop':
-            //                     containers = room.getStructures;
-            //                     // to do: order by range
-            //                     for (var i in containers) {
-            //                         if ((containers[i].maxEnergy - containers[i].energy) >= slave.Energy) {
-            //                             slave.memory.target = getPosition(containers[barrel]);
-            //                             break;
-            //                         }
-            //                     }
-            //                     console.log('slave couldnt empty itself - no empty containers found');                    
-            //                     break;
-            //                 default:
-            //                     console.log('carrier has trouble with its mission. Default drop initiated');
-            //             }
-            //             break;
-            //         default:
-            //         console.log('role missing in getTarget');
-            //     }
-            // }
+       
         
     };
     module.exports = exportCode;
