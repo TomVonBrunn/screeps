@@ -1,0 +1,9 @@
+lvl1{
+    basic: 5 
+},
+lvl2{
+    harvester: 4,
+    hauler: 4,
+    upgrader: 3,
+    builder: 2,
+}

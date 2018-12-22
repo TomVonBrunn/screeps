@@ -10,8 +10,8 @@ var exportCode = {
     
     checkStaff: function(slaves) 
     {
-        const HARVESTER = 1;
-        // const COURIER = 2;
+        const HARVESTER = 0;
+        const COURIER = 0;
     
         var harvester = 0;
         var courier = 0;

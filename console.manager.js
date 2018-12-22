@@ -111,7 +111,6 @@ addRoom_step1: function(room, zoneID, force = 0, exclusive = 1)
 // SETS ROOM MEMORY
 setRoomMemory: function(roomName)
 {
-    console.log(Memory.rooms[roomName]);
     if (typeof Memory.rooms[roomName] !== 'undefined') {
         console.log("%cAddRoom CODE ALERT; Room memory already existed. It got rewritten. Check it out.", "color:yellow")
     }

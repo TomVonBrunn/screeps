@@ -9,7 +9,7 @@ var roleUpgrader = {
 	    }
 	    if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
 	        creep.memory.upgrading = true;
-	        creep.say('⚡ upgrade');
+	        creep.say('💓 upgrade');
 	    }
 
 	    if(creep.memory.upgrading) {

@@ -34,6 +34,7 @@ var exportCode = {
 
     // Check that task is being fulfilled (= spawn had enough energy)
     checkSpawning: function(room){
+        console.log('checking spawning');
         var task = room.task;
         let spawn = task.priority;
         if (typeof spawn == 'string') {
@@ -41,8 +42,10 @@ var exportCode = {
             if (spawn.spawning) {
                 let creepName = spawn.spawning.name;
                 let creep = Game.creeps[creepName];
+                console.log(creep.memory.master[1]);
                 switch (creep.memory.master[1]) {
-                    case 'controller':                
+                    case 'controller':
+                    console.log('FOR CONTROLLER');                
                         room.controller.slaves.push(creep.name);
                         break;
                     case 'spawns':
@@ -90,7 +93,7 @@ var exportCode = {
         if (task.priority < controller.task[1]){
             task.priority = controller.task[1];
             task.role = controller.task[0];
-            task.master = room.controller;
+            task.master = controller.id;
         }
     },
 

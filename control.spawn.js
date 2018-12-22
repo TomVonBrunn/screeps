@@ -70,11 +70,11 @@ getBodyParts: function(role, mark = 0){
 },
 
 getMasterType: function(masterID){
-    let type = Game.structures[masterID];        
-    if (typeof type == 'undefined') {
+    let structure = Game.structures[masterID];
+    if (structure === undefined) {
         return 'sources';
     } else {            
-        type = type.structureType;
+        let type = structure.structureType;
         switch (type) {
             case 'controller':
                 return 'controller';

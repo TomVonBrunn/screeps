@@ -15,42 +15,39 @@ var exportCode = {
     
         var upgrader = 0;
         
-        var length = slaves.length?slaves.length:0;
-        if (length == 0) {
-            return ['upgrader',4];
-        }
+        var length = slaves.length;
         
-        for (let i = 0; i < length; i++) {
-            let slave = Game.creeps[slaves[i]];
-            if (!slave) {
-                source.memory.slaves.splice(i, 1);
-                i--;
-                continue;
-            } else {
-                switch (slave.memory.role) {
-                    case 'harvester':
-                        harvester++;
-                        break;                    
-                    case 'courier':
-                        courier++;
-                        break;
-                }
-            }
-            // po filtrovani a zapocitani udeli misi
-            
-        var testGM1 = performance.now();
-            this.giveMission(slave); 
-            
-        var testGM2 = performance.now();
-        console.log(slave +  " performance: " + (testGM2 - testGM1) + " ms.")
-        }
-        
-        if (harvester < HARVESTER) {
-            return ['harvester', 2];
-        }
-        // if (courier < COURIER) {
-        //     return 'courier';
+        // if (length == 0) {
+        //     return ['upgrader',4];
         // }
+        
+        // for (let i = 0; i < length; i++) {
+        //     let slave = Game.creeps[slaves[i]];
+        //     if (!slave) {
+        //         source.memory.slaves.splice(i, 1);
+        //         i--;
+        //         continue;
+        //     } else {
+        //         switch (slave.memory.role) {
+        //             case 'harvester':
+        //                 harvester++;
+        //                 break;                    
+        //             case 'courier':
+        //                 courier++;
+        //                 break;
+        //         }
+        //     }
+        //     // po filtrovani a zapocitani udeli misi
+            
+        // var testGM1 = performance.now();
+        //     this.giveMission(slave); 
+            
+        // var testGM2 = performance.now();
+        // console.log(slave +  " performance: " + (testGM2 - testGM1) + " ms.")
+        // }
+        // // if (courier < COURIER) {
+        // //     return 'courier';
+        // // }
         return ['none', 0];
     },
     
