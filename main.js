@@ -1,8 +1,13 @@
 var zoneControl = require('control.zone');
 
 module.exports.loop = function () {
+    
     var t0 = performance.now();
     console.log('_____ CYCLE ' + Game.time + ' _____');
+    var stringified = JSON.stringify(Memory);
+    var startCpu = Game.cpu.getUsed();
+    JSON.parse(stringified);
+    console.log('CPU spent on Memory parsing:', Game.cpu.getUsed() - startCpu);
     if (!Memory.timer) {
         Memory.timer = Game.time;
     } else if (Memory.timer == Game.time - 10) {

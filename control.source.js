@@ -24,7 +24,7 @@ var exportCode = {
         for (let i = 0; i < length; i++) {
             let slave = Game.creeps[slaves[i]];
             if (!slave) {
-                source.memory.slaves.splice(i, 1);
+                slaves.splice(i, 1);
                 i--;
                 continue;
             } else {

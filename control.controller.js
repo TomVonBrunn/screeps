@@ -53,52 +53,6 @@ var exportCode = {
     
     giveMission: function(slave) { 
         switch (slave.memory.role) {
-    
-            case 'harvester':
-                var harvesterRole = require('role.harvester');
-                harvesterRole.run(slave);
-                // roleHarvester.run(slave);
-    
-                // if (!slave.memory.inposition) {
-                //     var pathToTarget = findPathToTarget(game.getSourceById(sourceID));
-                //     if (pathToTarget.distance = 1) {
-                //         slave.memory.inposition = 1;
-                //     } else {
-                //     slave.move.pathToTarget;
-                //     }
-                // }
-                // if () {   
-                //     slave.mine(game.getSourceById(sourceID))
-                // }
-                break;
-            case 'carrier':
-                // var roleHarvester = require('role.carrier');
-    
-                // if (transfer_error) { //    !distance(position(self), memory.mission) = 1 { // mozna radsi kontrolovat transfer error
-                //     moveTo(slave.memory.target);
-                // } else {
-                //     switch (memory.mission) {
-                //         case 'load': 
-                //             slave.memory.target = getTarget(slave); // if target is the same, transfer happens
-                //             if (!transfer_error) {
-                //                 transfer;
-                //             }
-                //         }
-                //     }
-                break;
-            case 'courier':
-                // if (transfer_error) { //    !distance(position(self), memory.mission) = 1 { // mozna radsi kontrolovat transfer error
-                //     moveTo(target);
-                // } else {
-                //     switch (memory.mission) {
-                //         case 'load': 
-                //             target = getTarget(memory.mission, self.energy); // if target is the same, transfer happens
-                //             if (!transfer_error) {
-                //                 transfer;
-                //             }
-                //     }
-                // }
-                break;
             case 'builder':
                 break;
             case 'upgrader':

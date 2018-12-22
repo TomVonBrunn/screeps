@@ -1,9 +1,7 @@
 
 var spawnControl = require('control.spawn');
 
-var exportCode = {    
-    // RUN parameter = element z Memory.zone[i].rooms    
-
+var exportCode = {
     run: function(roomName){
         var room = Memory.rooms[roomName];
         var task = room.task;
@@ -11,18 +9,15 @@ var exportCode = {
         this.runSources(room);
         this.runController(room);
 
-        //check tasks that have been assigned to spawns last turn - assign creeps to masters        
         console.log('Next in que: ' + task.role + ' for ' + task.master + ' with priority ' + task.priority);
         if (task.priority == 0) {
             return;
         }
-        
-        // offer priorityTask to spawns
         for (let spawn in room.spawns) {
             var response = spawnControl.run(spawn, task);
             switch (response) {
                 case true:                    
-                    task.priority = spawn; // block task in memory         .....here it rewrites task in memory.sources.source.task
+                    task.priority = spawn;
                     break;
                 case false:
                     break;            
@@ -32,9 +27,7 @@ var exportCode = {
         }
     },
 
-    // Check that task is being fulfilled (= spawn had enough energy)
     checkSpawning: function(room){
-        console.log('checking spawning');
         var task = room.task;
         let spawn = task.priority;
         if (typeof spawn == 'string') {
@@ -42,10 +35,8 @@ var exportCode = {
             if (spawn.spawning) {
                 let creepName = spawn.spawning.name;
                 let creep = Game.creeps[creepName];
-                console.log(creep.memory.master[1]);
                 switch (creep.memory.master[1]) {
-                    case 'controller':
-                    console.log('FOR CONTROLLER');                
+                    case 'controller':             
                         room.controller.slaves.push(creep.name);
                         break;
                     case 'spawns':
@@ -59,7 +50,7 @@ var exportCode = {
                         break;
                 }
             } else {
-                console.log('Spawn lacking energy');
+                console.log('Spawn lacking energy for required task');
             }
         }
     },
@@ -70,12 +61,11 @@ var exportCode = {
         task.role = 'none';
         task.priority = 0;
         task.master = 'none';
+        task.mark = Game.getObjectById(room.controller.id).level;
         var sources = room.sources;
         for (let sourceID in sources) {
             var source = sources[sourceID];
             sourceControl.run(source);
-            // Creates list of available tasks in memory (sourceIDs with available tasks)
-            // remove once reliable
             if (task.priority < source.task[1]){
                 task.priority = source.task[1];
                 task.role = source.task[0];
@@ -85,7 +75,6 @@ var exportCode = {
     },
 
     runController: function(room){
-        console.log(room.controller);
         var controllerControl = require('control.controller');
         var task = room.task;
         var controller = room.controller;
@@ -96,9 +85,5 @@ var exportCode = {
             task.master = controller.id;
         }
     },
-
-    // Problém je, že ke spawnování dojde až příští kolo. Co s tím? 
-    // Do blokovaného tasku umístit info o spawnu, přiští kolo updatnout zdroje a creepy ve spawnech. 
-    // Blokovaný task se uvolní na hned na začátku nového kola a source může předat nový úkol.
-    };
-    module.exports = exportCode;
+};
+module.exports = exportCode;
