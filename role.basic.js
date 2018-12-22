@@ -2,6 +2,26 @@ var roleBasic = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+        switch (creep.memory.status.action) {
+            case 'basic':
+                this.doBasicStuff(creep);
+                break;
+            case 'upgrade':
+                this.upgrade(creep);
+                break;
+            case 'spawning' :
+                if (creep.memory.status.expiration <= Game.time) {
+                    creep.memory.status.action = 'basic';
+                    creep.memory.status.expiration = 0;
+                }
+                break;
+            default:
+                break;
+        }
+    },
+    
+    /** @param {Creep} creep **/
+    doBasicStuff: function(creep) {
         if(creep.carry.energy < creep.carryCapacity) {
             var sources = creep.room.find(FIND_SOURCES);
             if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
@@ -21,33 +41,27 @@ var roleBasic = {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             } else {
+                creep.memory.status.action = 'upgrade';
                 this.upgrade(creep);
             }
         }
+        return;
     },
 
-         /** @param {Creep} creep **/
+    /** @param {Creep} creep **/
     upgrade: function(creep) {
+        var status = creep.memory.status;
 
-        if(creep.memory.upgrading && creep.carry.energy == 0) {
-        creep.memory.upgrading = false;
-        creep.say('harvesting!');
-        }
-        if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.upgrading = true;
-            creep.say('↑ upgrading!');
+        if(creep.carry.energy == 0) {
+        status.action = 'basic';
+        creep.say('🐹');
+        return;
         }
 
-        if(creep.memory.upgrading) {
         if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
             creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
         }
-        } else {
-        var sources = creep.room.find(FIND_SOURCES);
-        if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(sources[0]);
-        }
-        }
+        return;
     }
 };
 
