@@ -20,22 +20,23 @@ var exportCode = {
         if (length == 0) {
             return ['basic',3];
         }
-        
         for (let i = 0; i < length; i++) {
-            let slave = Game.creeps[slaves[i]];
+            var slave = Game.creeps[slaves[i]];
             if (!slave) {
+                console.log('Creep died: ' + slaves[i]);
+                delete Memory.creeps[slaves[i]];
                 slaves.splice(i, 1);
-                i--;
                 continue;
-            } else {
-                switch (slave.memory.role) {
-                    case 'harvester':
-                        harvester++;
-                        break;                    
-                    case 'courier':
-                        courier++;
-                        break;
-                }
+            }
+            switch (slave.memory.role) {
+                case 'harvester':
+                    harvester++;
+                    break;                    
+                case 'courier':
+                    courier++;
+                    break;
+                default:
+                    break;
             }
             
         var testGM1 = performance.now();
@@ -43,6 +44,7 @@ var exportCode = {
             
         var testGM2 = performance.now();
         console.log(slave +  " performance: " + (testGM2 - testGM1) + " ms.")
+        
         }
         
         if (harvester < HARVESTER) {
@@ -54,7 +56,7 @@ var exportCode = {
         return ['none', 0];
     },
     
-    giveMission: function(slave) { 
+    giveMission: function(slave) {
         switch (slave.memory.role) {
     
             case 'harvester':

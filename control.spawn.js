@@ -45,11 +45,9 @@ getBodyParts: function(role, mark){
         case 'harvester':
             switch (mark) {
                 case 1:
-                    return [WORK, CARRY, MOVE];
-                    break;
+                    return false;
                 case 2:
-                    return [WORK, CARRY, MOVE];                          
-                    break;
+                    return [WORK, CARRY, MOVE];
                 case 3:
                     return [WORK, CARRY, MOVE];
                 // default:
@@ -60,7 +58,7 @@ getBodyParts: function(role, mark){
         case 'hauler':
             switch (mark) {
                 case 1:
-                    return [WORK, CARRY, MOVE];
+                    return [CARRY, CARRY, CARRY, MOVE, MOVE, MOVE];
                 // default:
                 // console.log('This shouldnt happen: ' + role + ' mk ' + mark);
                 //     break;
